@@ -1,40 +1,323 @@
+# vim: sts=2 ts=2 sw= et ai
+#
 lvm:
-    lv:
-        lv1:
-            name: lv_data1
-            vgname: vg_data
-            options:
-                size: 1g
-                stripes: 5
-                stripesize: 8K
-                thinpool: True
-                thinvolume: True
-        lv_data2:
-            enabled: False   # this lv will be removed
-            vgname: vg_data2
-            options:
-                size: 1g
-    vg:
-        vg1:
-            name: vg_data
-           enabled: True # default True
-            devices:
-                - /dev/sdb
-                - /dev/sdc
-            options:
-                physicalextentsize: 1g
-        vg_data2:
-            devices:
-                - /dev/sdd
-    pv:
-        pv1:
-            enabled: True # False to remove it
-            device: /dev/sdb
-            options:
-                setphysicalvolumesize: 2g
-        /dev/sdc:
-            enabled: True
-            options:
-                whatever_pvcreate_option: value
-        /dev/sdd:
-            enabled: True
+  pkg: lvm2
+  group: root
+
+  config:
+    dir:
+      profiles: /etc/lvm/profile
+      backups: /etc/lvm/backup
+
+  profiles:
+    remove:
+      - sillyprofile
+    create:
+      thin-generic-autoextend:
+        activation:
+          thin_pool_autoextend_threshold: 70
+          thin_pool_autoextend_percent: 20
+  pv:
+    remove:
+      /dev/sdb:
+        options:
+          verbose: True
+      /dev/sdc:
+        options:
+          debug: True
+      /dev/sdd:
+      /dev/sde:
+      /dev/sdf:
+    change:
+      ##Named PV must belong to VG; i.e. PV must be allocatable
+      /dev/sdd:
+        options:
+          addtag: 'goodpvs'
+          deltag: 'badpvs'
+          debug: 1
+    resize:
+      /dev/sdd:
+        options:
+          setphysicalvolumesize: 1G
+    move:
+      ##(Named LV and) old PV must be in same VG; i.e. PVs must be allocatable
+      /dev/sdd:
+        dest: /dev/sde
+        options:
+          #name: vg00/lv1
+          noudevsync: True
+    create:
+      /dev/sdb:
+      /dev/sdc:
+        options:
+          verbose: True
+      /dev/sdd:
+      /dev/sde:
+        options:
+          override: True
+          dataalignmentoffset: 7s
+          metadatacopies: 1
+          metadatasize: 40MiB
+      /dev/sdf:
+
+  vg:
+    cfgbackup:
+      vg00:
+        file: vg00_backup_today
+        options:
+          quiet: True
+
+    import:
+      i_do_not_exist:
+        options:
+          verbose: True
+
+    remove:
+      vg00:
+        options:
+          noudevsync: True
+      vg_large:
+        options:
+          noudevsync: True
+
+    change:
+      vg00:
+        options:
+          available: True
+          syncronize: False
+          addtag: 'goodvgs'
+          deltag: 'badvgs'
+
+    reduce:
+      vg00:
+        devices:
+          - /dev/sdb
+        options:
+          removemissing: True
+
+    extend:
+      vg00:
+        devices:
+          - /dev/sdd
+        options:
+          restoremissing: True
+
+    split:
+      vg00:
+        newvg: smallvg
+        devices:
+          - /dev/sdf
+        options:
+          clustered: n
+          maxphysicalvolumes: 0
+          maxlogicalvolumes: 0
+
+    merge:
+      vg00:
+        withvg: vg001
+        options:
+          debug: True
+
+    rename:
+      vg002:
+        newname: vg2
+        options:
+          debug: True
+
+    create:
+      vg00:
+        devices:
+          - /dev/sdb
+          - /dev/sdc
+        options:
+          clustered: n
+          maxlogicalvolumes: 0
+          maxphysicalvolumes: 0
+          physicalextentsize: 1024
+      vg_large:
+        devices:
+          - /dev/sdd
+          - /dev/sde
+          - /dev/sdf
+
+    export:
+      vg_tmp:
+        options:
+          verbose: True
+          commandprofile: command_profile_template
+
+    cfgrestore:
+      vg00:
+        file: vg00_backup_today
+
+  lv:
+    remove:
+      lv_pool1:
+        vgname: vg_large
+      lv_pool1_meta:
+        vgname: vg_large
+      lvol0:
+        vgname: vg_large
+      lvol1:
+        vgname: vg_large
+      lvol2:
+        vgname: vg_large
+      lvol3:
+        vgname: vg_large
+      lvol4:
+        vgname: vg_large
+      lvol5:
+        vgname: vg_large
+      lvol6:
+        vgname: vg_large
+      my_raid1:
+        vgname: vg_large
+        options:
+          force: True
+
+    change:
+      vg00/lv1:
+        options:
+          permission: r
+          activate: n
+          addtag: 'goodlvs'
+          deltag: 'badlvs'
+
+    reduce:
+      vg00/lv1:
+        options:
+          extents: -2
+      vg00/lv2:
+        options:
+          size: -20MiB
+
+    extend:
+      vg00/lv1:
+        options:
+          #extents: +100%PVS
+          extents: 2
+        devices:
+          - /dev/sdf
+
+    rename:
+      vg00/lv11:
+        vgname: vg00
+        newname: lvolvo
+
+    create:
+      lv1:
+        vgname: vg00
+        size: 200MiB
+        options:
+          addtag: 'Coolvolume'
+          contiguous: y
+          monitor: y
+      lv_stripe1:
+        vgname: vg00
+        options:
+          extents: 1
+          stripes: 2
+          stripesize: 4096
+      #following pillars support snapshots: see https://github.com/saltstack/salt/issues/48808
+      sparse:
+        vgname: vg00
+        snapshot: True
+        sourcelv: lv1
+        options:
+          size: 200MiB
+      lv2_snap:
+        vgname: vg00
+        snapshot: True
+        sourcelv: lv2
+        options:
+          size: '+10%ORIGIN'
+        devices:
+          - /dev/sdc:0-7
+          - /dev/sdd:0-7
+      # untested ...
+      lv_raid5:
+        vgname: vg00
+        size: 5MiB
+        options:
+          type: raid5
+          stripes: 3
+          stripesize: 64
+      #lv_raid10_a:
+      #  vgname: vg00
+      #  options:
+      #    type: raid10
+      #    size: 5MiB
+      #    stripes: 2
+      #    mirrors: 1
+
+      # data logical volume for thinLV
+      lv_pool1:
+        vgname: vg_large
+        size: 1G
+        devices:
+          - /dev/sdd:0-7
+      # thin metadata logical volume for thinLV
+      lv_pool1_meta:
+        vgname: vg_large
+        size: 50MiB
+        devices:
+          - /dev/sdd:0-7
+      # thin LV
+      lv_thin1:
+        vgname: lv_thinpool1
+        thinvolume: True
+        size: 50M
+        options:
+          virtualsize: 1G
+      lv_raid10_b:
+        vgname: vg_large
+        size: 100MiB
+        options:
+          stripes: 2
+          stripesize: 64
+          chunksize: 256
+          thin: True            #thinlogicalvolume
+          thinpool: lv_pool1
+          virtualsize: 1G
+          background: True
+  
+    convert:
+      ##thin pool logical volume
+      vg_large/lv_thinpool1:
+        options:
+          type: thin-pool
+          ##data and metadata LVs in a thin pool are best created on separate physical devices
+          poolmetadata:
+            - lv_pool1_meta
+            - lv_pool1
+      vg_large/lv_pool1:
+        options:
+          type: thin-pool
+      vg_large/lv_1:
+        options:
+          mirrors: 1
+          mirrorlog: core
+        devices:
+          - /dev/sdd:0-15
+          - /dev/sdd:0-15
+      vg_large/lv_mirror1:
+        options:
+          splitmirrors: 1
+          name: lv_split
+          regionsize: 512KB
+          background: False
+          interval: 10
+          noudevsync: False
+        devices:
+          - /dev/sde
+          - /dev/sdf
+
+  filesystems:
+    create:
+      /dev/vg00/lv1:
+        options:
+          type: gfs
+          options: '-plock_nolock -j 1'
+          mount: True
+          onboot: True
+          onboot_opts:

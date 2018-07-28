@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+RedHat:
+  pkg: lvm2
+  profiles:
+    default:
+      thin-generic: {}
+      cache-mq: {}
+      command_profile_templater: {}
+      cache-smq: {}
+      lvmdbusd: {}
+
+Debian:
+  pkg: lvm2

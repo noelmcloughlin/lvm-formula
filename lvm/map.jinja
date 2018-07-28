@@ -1,18 +1,16 @@
-# -*- coding: utf-8 -*-
-# vim: ft=jinja
+#Defaults
+{% import_yaml "lvm/defaults.yaml" as defaults %}
+{% import_yaml "lvm/osfamilymap.yaml" as osfamilymap %}
 
-{% set os_family_map= salt['grains.filter_by']({
-        'RedHat': {
-            'pkg': 'lvm2',
-        },
-        'Debian': {
-            'pkg': 'lvm2',
-        },
-  }, merge=salt['pillar.get']('lvm:lookup')) %}
+# Merge site-specific data
+{% set lvm = salt['grains.filter_by'](
+    defaults,
+    merge=salt['grains.filter_by'](
+        osfamilymap,
+        merge=salt['pillar.get']('lvm', {}),
+    ),
+    base='lvm',
+) %}
 
-{% set lvm_settings = salt['pillar.get'](
-        'lvm',
-        default=os_family_map,
-        merge=True
-    )
-%}
+## legacy
+{% set lvm_settings = lvm %}
