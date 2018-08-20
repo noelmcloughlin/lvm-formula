@@ -25,6 +25,10 @@ note:: Order 'install', 'profiles', 'pv', 'vg', and 'lv'.
 -----------
 Install lvm2 package.
 
+``config``
+----------
+Configure PVs, VGs and LVs using legacy pillar data (backwards compatibility only).
+
 ``lvm.remove``
 ------------
 Remove lvm2 software.

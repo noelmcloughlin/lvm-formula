@@ -4,8 +4,9 @@
 ## Automate tasks in logical sequence ...
 
 include:
-    - .install
-    - .profiles
-    - .pv
-    - .vg
-    - .lv
+    - lvm.install
+    - lvm.config
+    - lvm.profiles
+    - lvm.pv
+    - lvm.vg
+    - lvm.lv

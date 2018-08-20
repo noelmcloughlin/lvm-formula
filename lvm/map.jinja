@@ -12,5 +12,9 @@
     base='lvm',
 ) %}
 
-## legacy
-{% set lvm_settings = lvm %}
+## legacy remove in future ##
+{% set os_family_map = salt['grains.filter_by']({
+        'RedHat': { 'pkg': 'lvm2', },
+        'Debian': { 'pkg': 'lvm2', },
+  }, merge=salt['pillar.get']('lvm:lookup')) %}
+{% set lvm_settings = salt['pillar.get']( 'lvm', default=os_family_map, merge=True) %}

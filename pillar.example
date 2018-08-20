@@ -1,5 +1,7 @@
 # vim: sts=2 ts=2 sw= et ai
 #
+# for legacy pillar support (backward compatibility) see bottom of file
+
 lvm:
   pkg: lvm2
   group: root
@@ -321,3 +323,46 @@ lvm:
           mount: True
           onboot: True
           onboot_opts:
+
+### LEGACY PILLAR SUPPORT ###
+
+lvm:
+  lv:
+    lv1:
+      name: lv_data1
+      vgname: vg_data
+      options:
+        size: 1g
+        stripes: 5
+        stripesize: 8K
+        thinpool: True
+        thinvolume: True
+    lv_data2:
+      enabled: False   # this lv will be removed
+      vgname: vg_data2
+      options:
+        size: 1g
+  vg:
+    vg1:
+      name: vg_data
+      enabled: True # default True
+      devices:
+        - /dev/sdb
+        - /dev/sdc
+      options:
+        physicalextentsize: 1g
+      vg_data2:
+        devices:
+          - /dev/sdd
+  pv:
+    pv1:
+      enabled: True # False to remove it
+      device: /dev/sdb
+      options:
+        setphysicalvolumesize: 2g
+    /dev/sdc:
+       enabled: True
+       options:
+       whatever_pvcreate_option: value
+    /dev/sdd:
+       enabled: True
