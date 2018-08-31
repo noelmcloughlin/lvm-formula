@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
+## LEGACY STATE (BACKWARDS COMPATIBLE) FUTURE TODO: REMOVE ##
 
 {% from "lvm/map.jinja" import lvm_settings with context %}
 

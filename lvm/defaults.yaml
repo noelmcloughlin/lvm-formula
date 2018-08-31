@@ -1,0 +1,31 @@
+# vim: sts=2 ts=2 sw= et ai
+#
+lvm:
+  pkg: lvm2
+  cfgsource: salt://lvm/files/conf.jinja
+  group: root
+  filemode: '0640'
+  dir_mode: '0755'
+
+  config:
+    dir:
+      profiles: /etc/lvm/profile
+      backups: /etc/lvm/backup
+
+  profiles:
+    default: {}
+    remove: {}
+    create: {}
+    man5:
+      manpage: lvm.conf(5)
+      vendor: kernel
+      format:
+        div: "="
+        ucl:  False
+        json: False
+  vg:
+    enable_export: False
+    enable_cfgrestore: False
+  pv: {}
+  lv: {}
+

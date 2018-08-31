@@ -1,0 +1,45 @@
+{%- if grains.os_family not in ('RedHat',) -%}
+{#- see https://github.com/instabot-py/instabot.py/issues/438 -#}
+#########################################################
+# File managed by Salt. Changes risk being overwritten.
+#########################################################
+{% endif -%}
+
+{%- macro conf(outdict, format, spaces=0) -%}
+  {%- for key, value in outdict.items() -%}
+{{ outfile(key, value, format, spaces, loop.last) }}
+  {%- endfor %}
+{%- endmacro -%}
+
+{%- macro outfile(key, value, f, spaces=0, last=False) -%}
+  {%- set shift = spaces * ' ' -%}
+{%- if value is mapping %}
+{{ shift }}{{ key }}{{ " {" -}}
+{{ conf(value, f, spaces|int+4) }}
+{{ shift ~ '}' }}
+{%- elif value is string or value is number %}
+{{ shift }}{{ key }}{{ f.div }}{{ value }}
+{%- elif value is iterable and value is not string %}
+{{ shift }}{{ key }}{{ ' {' }}
+{%- for v in value %}
+{{ shift }}{{ shift }}{{ v }}
+{%- endfor %}
+{{ shift }}{{ "}" }}
+{%- endif %}
+{%- endmacro -%}
+
+{{ conf(data, format, 0) }}
+
+{%- macro getoptions(outdict, sls=False) -%}
+  {%- if options in outdict %}
+     {%- set options = '' %}
+     {%- for k, v in outdict['options'].items() %}
+       {%- if sls %}
+    - {{ k }}: {{ v }}
+       {%- else %}
+         {% set options = options ~ ' --' ~ k if v and not v in (True,) else options ~ ' --' ~ k %}
+       {%- endif %}
+      {%- endfor %}
+{{- '' if sls else options -}}
+   {%- endif %}
+{%- endmacro %}
