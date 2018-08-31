@@ -6,14 +6,14 @@
 
 {# Creation order: pv -> vg -> lv #}
 
-{% if 'pv' in lvm_settings %}
+{% if 'pv' in lvm_settings and lvm_settings.pv %}
 {% for pv,pv_options in lvm_settings.pv.items() %}
 {% if ( 'enabled' in pv_options and pv_options.enabled ) or 'enabled' not in pv_options %}
 
 lvm.pv.create_{{ pv_options.device|default(pv) }}:
     lvm.pv_present:
         - name: {{ pv_options.device|default(pv) }}
-    {% if 'options' in pv_options %}
+    {% if 'options' in pv_options and pv_options.options %}
     {% for opt,value in pv_options.options.items() %}
         - {{ opt }}: {{ value }} 
     {% endfor %}
@@ -23,7 +23,7 @@ lvm.pv.create_{{ pv_options.device|default(pv) }}:
 {% endfor %}
 {% endif %}
 
-{% if 'vg' in lvm_settings %}
+{% if 'vg' in lvm_settings and lvm_settings.vg %}
 {% for vg,vg_options in lvm_settings.vg.items() %}
 {% if ( 'enabled' in vg_options and vg_options.enabled ) or 'enabled' not in vg_options %}
 
@@ -31,7 +31,7 @@ lvm.vg.create_{{ vg_options.name|default(vg) }}:
     lvm.vg_present:
         - name: {{ vg_options.name|default(vg) }}
         - devices: {{ vg_options.devices }}
-    {% if 'options' in vg_options %}
+    {% if 'options' in vg_options and vg_options.options %}
     {% for opt,value in vg_options.options.items() %}
         - {{ opt }}: {{ value }} 
     {% endfor %}
@@ -41,7 +41,7 @@ lvm.vg.create_{{ vg_options.name|default(vg) }}:
 {% endfor %}
 {% endif %}
 
-{% if 'lv' in lvm_settings %}
+{% if 'lv' in lvm_settings and lvm_settings.lv %}
 {% for lv,lv_options in lvm_settings.lv.items() %}
 {% if ( 'enabled' in lv_options and lv_options.enabled ) or 'enabled' not in lv_options %}
 
@@ -49,7 +49,7 @@ lvm.lv.create_{{ lv_options.name|default(lv) }}:
     lvm.lv_present:
         - name: {{ lv_options.name|default(lv) }}
         - vgname: {{ lv_options.vgname }}
-    {% if 'options' in lv_options %}
+    {% if 'options' in lv_options and lv_options.options %}
     {% for opt,value in lv_options.options.items() %}
         - {{ opt }}: {{ value }} 
     {% endfor %}
@@ -62,7 +62,7 @@ lvm.lv.create_{{ lv_options.name|default(lv) }}:
 
 {# Deletion order: lv -> vg -> pv #}
 
-{% if 'lv' in lvm_settings %}
+{% if 'lv' in lvm_settings and lvm_settings.lv %}
 {% for lv,lv_options in lvm_settings.lv.items() %}
 {% if 'enabled' in lv_options and not lv_options.enabled %}
 
@@ -75,7 +75,7 @@ lvm.lv.remove_{{ lv_options.name|default(lv) }}:
 {% endfor %}
 {% endif %}
 
-{% if 'vg' in lvm_settings %}
+{% if 'vg' in lvm_settings and lvm_settings.vg %}
 {% for vg,vg_options in lvm_settings.vg.items() %}
 {% if 'enabled' in vg_options and not vg_options.enabled %}
 
@@ -87,7 +87,7 @@ lvm.vg.remove_{{ vg_options.name|default(vg) }}:
 {% endfor %}
 {% endif %}
 
-{% if 'pv' in lvm_settings %}
+{% if 'pv' in lvm_settings and lvm_settings.pv %}
 {% for pv,pv_options in lvm_settings.pv.items() %}
 {% if 'enabled' in pv_options and not pv_options.enabled %}
 
