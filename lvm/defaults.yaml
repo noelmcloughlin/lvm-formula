@@ -2,7 +2,7 @@
 #
 lvm:
   pkg: lvm2
-  cfgsource: salt://lvm/files/conf.jinja
+  cfgsource: salt://lvm/templates/conf.jinja
   group: root
   filemode: '0640'
   dir_mode: '0755'

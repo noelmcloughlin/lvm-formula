@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 {% from "lvm/map.jinja" import lvm with context %}
-{% from "lvm/files/macros.jinja" import getopts with context %}
+{% from "lvm/templates/macros.jinja" import getopts with context %}
 
 {%- if lvm.vg and "merge" in lvm.vg and lvm.vg.merge is mapping %}
   {%- for vg, vgdata in lvm.vg.merge.items() %}
