@@ -2,7 +2,6 @@
 # vim: ft=jinja
 
 RedHat:
-  pkg: lvm2
   profiles:
     default:
       thin-generic: {}
@@ -11,5 +10,3 @@ RedHat:
       cache-smq: {}
       lvmdbusd: {}
 
-Debian:
-  pkg: lvm2

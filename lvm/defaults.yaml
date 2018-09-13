@@ -1,7 +1,9 @@
 # vim: sts=2 ts=2 sw= et ai
 #
 lvm:
-  pkg: lvm2
+  pkgs:
+    - lvm2
+    - cryptsetup
   cfgsource: salt://lvm/templates/conf.jinja
   group: root
   filemode: '0640'
