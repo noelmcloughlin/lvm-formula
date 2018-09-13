@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 {% from "lvm/map.jinja" import lvm with context %}
-{% from "lvm/files/macros.jinja" import getopts with context %}
+{% from "lvm/templates/macros.jinja" import getopts with context %}
 
 {%- if lvm.vg and lvm.vg.enable_cfgrestore and "cfgrestore" in lvm.vg and lvm.vg.cfgrestore is mapping %}
 

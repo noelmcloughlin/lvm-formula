@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 {% from "lvm/map.jinja" import lvm with context %}
-{% from "lvm/files/macros.jinja" import getopts with context %}
-{% from "lvm/files/macros.jinja" import getlist with context %}
+{% from "lvm/templates/macros.jinja" import getopts with context %}
+{% from "lvm/templates/macros.jinja" import getlist with context %}
 
 {%- if lvm.vg and "split" in lvm.vg and lvm.vg.split is mapping %}
   {%- for vg, vgdata in lvm.vg.split.items() %}
