@@ -93,13 +93,12 @@ Create custom lvm profile(s)::
 
 ``lvm.files.remove``
 ------------------
-Remove LVM backing files from the file system
+Remove LVM backing files from the file system.
 
 ``lvm.files.create``
 ------------------
-LVM Loopback HOW-TO support. Creates backing files (in /tmp by defaults.yaml) and loopback devices according to pillars.
+LVM Loopback HOW-TO support. Creates backing files (in /tmp by defaults) and loopback devices per pillars::
 
-```
   lvm: 
     files:
       #loopbackdir: /tmp         #Where to create backing files? Default is /tmp anyway.
@@ -122,10 +121,9 @@ LVM Loopback HOW-TO support. Creates backing files (in /tmp by defaults.yaml) an
           testfile2.img:
     pv:
       create:
-        /dev/loop0:               #hopefully  /tmp/testfile1.img
-        /dev/loop1:               #hopefully  /tmp/testfile2.img
+        /dev/loop0:               #hopefully /tmp/testfile1.img (run 'sudo losetup -D' first for certainty)
+        /dev/loop1:               #hopefully /tmp/testfile2.img (run 'sudo losetup -D' first for certainty)
 
-```
 
 ``lvm.pv.remove``
 --------------
