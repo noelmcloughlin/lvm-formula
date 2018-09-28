@@ -4,7 +4,7 @@
 {% from "lvm/templates/macros.jinja" import getopts with context %}
 
 {%- if lvm.pv and "create" in lvm.pv and lvm.pv.create is mapping %}
-  {% for pv, pvdata in lvm.pv.create.items() %}
+  {% for pv, pvdata in lvm.pv.create.items() if pv not in ('create', 'delete',) %}
 
 lvm_pv_create_{{ pv }}:
   lvm.pv_present:

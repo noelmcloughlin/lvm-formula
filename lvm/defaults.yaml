@@ -8,6 +8,8 @@ lvm:
   group: root
   filemode: '0640'
   dir_mode: '0755'
+  files:
+    loopbackdir: /tmp
 
   config:
     dir:
