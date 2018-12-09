@@ -3,6 +3,14 @@
 {% from "lvm/map.jinja" import lvm with context %}
 {% from "lvm/templates/macros.jinja" import getopts, getoperands with context %}
 
+lvm ensure loop device dir exists:
+  file.directory:
+    - name: {{ lvm.files.loopbackdir or '/tmp/loopdevs' }}
+    - dir_mode: '0775'
+    - makedirs: True
+    - recurse:
+      - mode
+
 {%- if "create" in lvm.files and lvm.files.create is mapping %}
   {%- if "truncate" in lvm.files.create and lvm.files.create.truncate is mapping %}
     {% for file, filedata in lvm.files.create.truncate.items() %}
@@ -10,9 +18,11 @@
 ##Shrink or extend the size of each FILE to the specified size
 lvm file truncate {{ file }}:
   cmd.run:
-    - cwd: {{ lvm.files.loopbackdir or '/tmp' }}
+    - cwd: {{ lvm.files.loopbackdir or '/tmp/loopdevs' }}
     - name: truncate {{- getopts(filedata) }} {{ file }}
     - unless: test -f {{ file }}
+    - require:
+      - file: lvm ensure loop device dir exists
 
     {%- endfor %}
   {%- endif %}
@@ -23,9 +33,11 @@ lvm file truncate {{ file }}:
 ##Copy a file, converting and formatting according to the operands
 lvm file dd {{ file }}:
   cmd.run:
-    - cwd: {{ lvm.files.loopbackdir or '/tmp' }}
+    - cwd: {{ lvm.files.loopbackdir or '/tmp/loopdevs' }}
     - name: dd {{- getoperands(filedata) }} of={{ file }}
     - unless: test -f {{ file }}
+    - require:
+      - file: lvm ensure loop device dir exists
 
     {%- endfor %}
   {%- endif %}
@@ -35,9 +47,11 @@ lvm file dd {{ file }}:
 
 lvm file losetup {{ file }} as loopback device:
   cmd.run:
-    - cwd: {{ lvm.files.loopbackdir or '/tmp' }}
+    - cwd: {{ lvm.files.loopbackdir or '/tmp/loopdevs' }}
     - name: losetup {{ getopts(filedata) or '--show --find' }}{{' '}}{{ file }}
     - onlyif: test -f {{ file }}
+    - require:
+      - file: lvm ensure loop device dir exists
 
     {%- endfor %}
   {%- endif %}

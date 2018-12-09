@@ -9,7 +9,7 @@ lvm:
   filemode: '0640'
   dir_mode: '0755'
   files:
-    loopbackdir: /tmp
+    loopbackdir: /tmp/loopdevs
 
   config:
     dir:
