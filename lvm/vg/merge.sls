@@ -9,7 +9,7 @@
 lvm_vg_merge_{{ vg }}:
   cmd.run:
     - name: vgmerge {{ getopts(vgdata) }} {{ vg }} {{ vgdata['withvg'] }}
-    - onlyif: vgdisplay {{ vg }} && vgdisplay {{ vgdata['withvg'] }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null && vgdisplay {{ vgdata['withvg'] }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

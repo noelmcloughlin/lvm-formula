@@ -18,7 +18,7 @@ lvm_vg_cfgbackup_dir:
 lvm_vg_cfgbackup_{{ vg }}:
   cmd.run:
     - name: vgcfgbackup -f {{ lvm.config.dir.backups }}/{{ vgdata['file'] }} {{ getopts(vgdata) }} {{ vg }}
-    - onlyif: vgdisplay {{ vg }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null
     - require:
       - file: lvm_vg_cfgbackup_dir
 

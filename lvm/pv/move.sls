@@ -10,9 +10,9 @@ lvm_pv_move_{{ pv }}:
   cmd.run:
     - name: pvmove --yes {{ getopts(pvdata) }} {{ pv }} {{ pvdata['dest'] }}
     - onlyif:
-      - pvdisplay {{ pv }}
-      - pvdisplay {{ pvdata['dest'] }}
-      - pvdisplay {{ pvdata['dest'] }} | grep -i 'vg name[a-zA-Z1-9].*' 2>/dev/null
+      - pvdisplay {{ pv }} 2>/dev/null
+      - pvdisplay {{ pvdata['dest'] }} 2>/dev/null
+      - pvdisplay {{ pvdata['dest'] }} 2>/dev/null | grep -i 'vg name[a-zA-Z1-9].*' 2>/dev/null
 
   {%- endfor %}
 {%- else %}

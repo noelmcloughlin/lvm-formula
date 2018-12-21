@@ -9,8 +9,8 @@
 lvm_lv_rename_{{ lv }}:
   cmd.run:
     - name: lvrename {{ getopts(lvdata) }} {{ lv }} {{ lvdata['vgname'] }}/{{ lvdata['newname'] }}
-    - onlyif: lvdisplay {{ lv }}
-    - unless: lvdisplay {{ lvdata['vgname'] }}/{{ lvdata['newname'] }}
+    - onlyif: lvdisplay {{ lv }} 2>/dev/null
+    - unless: lvdisplay {{ lvdata['vgname'] }}/{{ lvdata['newname'] }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

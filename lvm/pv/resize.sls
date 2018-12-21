@@ -9,7 +9,7 @@
 lvm_pv_resize_{{ pv }}:
   cmd.run:
     - name: pvresize --yes {{ getopts(pvdata) }} {{ pv }}
-    - onlyif: pvdisplay {{ pv }}
+    - onlyif: pvdisplay {{ pv }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

@@ -9,7 +9,7 @@
 lvm_lv_remove_{{ lv }}:
   cmd.run:
     - name: lvremove --yes {{ getopts(lvdata) }} {{ lv }}
-    - onlyif: lvdisplay {{ lv }}
+    - onlyif: lvdisplay {{ lv }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

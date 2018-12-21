@@ -13,8 +13,8 @@
 lvm_lv_create_{{ lv }}:
   cmd.run:
     - name: lvcreate --yes {{- getopts(lvdata) }} --name {{ lvdata['vgname'] }}/{{ lv }} --snapshot {{ lvdata['sourcelv'] }} {{- getlist(lvdata['devices']) if 'devices' in lvdata else '' }}
-    - unless: lvdisplay {{ lvdata['vgname'] }}/{{ lv }}
-    - onlyif: lvdisplay {{ lvdata['vgname'] }}/{{ lvdata['sourcelv'] }}
+    - unless: lvdisplay {{ lvdata['vgname'] }}/{{ lv }} 2>/dev/null
+    - onlyif: lvdisplay {{ lvdata['vgname'] }}/{{ lvdata['sourcelv'] }} 2>/dev/null
     #force??
 
     {%- else %}
@@ -32,7 +32,7 @@ lvm_lv_create_{{ lv }}:
     {{ getopts(lvdata, True) }}
 
     {%- endif %}
-    - unless: lvdisplay {{ lv }} || lvdisplay {{ lvdata['vgname'] }}/{{ lv }}
+    - unless: lvdisplay {{ lv }} 2>/dev/null || lvdisplay {{ lvdata['vgname'] }}/{{ lv }} 2>/dev/null
   {%- endfor %}
 {%- else %}
 

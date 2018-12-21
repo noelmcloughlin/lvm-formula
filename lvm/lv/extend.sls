@@ -10,7 +10,7 @@
 lvm_lv_extend_{{ lv }}:
   cmd.run:
     - name: lvextend {{ getopts(lvdata) }} {{ lv }} {{ getlist(lvdata['devices']) }}
-    - onlyif: lvdisplay {{ lv }}
+    - onlyif: lvdisplay {{ lv }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

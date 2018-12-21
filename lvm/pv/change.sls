@@ -10,8 +10,8 @@ lvm_pv_change_{{ pv }}:
   cmd.run:
     - name: pvchange --yes {{ getopts(pvdata) }} {{ pv }}
     - onlyif:
-      - pvdisplay {{ pv }}
-      - pvdisplay {{ pv }} | grep -i 'vg name[a-zA-Z1-9].*' 2>/dev/null
+      - pvdisplay {{ pv }} 2>/dev/null
+      - pvdisplay {{ pv }} 2>/dev/null | grep -i 'vg name[a-zA-Z1-9].*' 2>/dev/null
 
   {%- endfor %}
 {%- else %}

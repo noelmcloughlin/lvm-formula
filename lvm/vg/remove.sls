@@ -9,7 +9,7 @@
 lvm_vg_remove_{{ vg }}:
   cmd.run:
     - name: vgremove --yes {{ getopts(vgdata) }} {{ vg }}
-    - onlyif: vgdisplay {{ vg }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

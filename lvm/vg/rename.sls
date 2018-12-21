@@ -9,8 +9,8 @@
 lvm_vg_rename_{{ vg }}:
   cmd.run:
     - name: vgrename {{ getopts(vgdata) }} {{ vg }} {{ vgdata['newname'] }}
-    - onlyif: vgdisplay {{ vg }}
-    - unless: vgdisplay {{ vgdata['newname'] }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null
+    - unless: vgdisplay {{ vgdata['newname'] }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}
