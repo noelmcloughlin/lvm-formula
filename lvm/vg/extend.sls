@@ -10,7 +10,7 @@
 lvm_vg_extend_{{ vg }}:
   cmd.run:
     - name: vgextend {{ getopts(vgdata) }} {{ vg }} {{ getlist(vgdata['devices']) }}
-    - onlyif: vgdisplay {{ vg }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

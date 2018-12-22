@@ -10,7 +10,7 @@
 lvm_lv_convert_{{ lv }}:
   cmd.run:
     - name: lvconvert --yes {{ getopts(lvdata) }} {{ lv }} {{ getlist(lvdata['devices']) if 'devices' in lvdata else '' }}
-    - onlyif: lvdisplay {{ lv }}
+    - onlyif: lvdisplay {{ lv }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

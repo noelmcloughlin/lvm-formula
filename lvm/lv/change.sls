@@ -9,7 +9,7 @@
 lvm_lv_change_{{ lv }}:
   cmd.run:
     - name: lvchange {{ getopts(lvdata) }} {{ lv }}
-    - onlyif: lvdisplay {{ lv }}
+    - onlyif: lvdisplay {{ lv }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

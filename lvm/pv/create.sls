@@ -9,7 +9,7 @@
 lvm_pv_create_{{ pv }}:
   lvm.pv_present:
     - name: {{ pv }}
-    - unless: pvdisplay {{ pv }}
+    - unless: pvdisplay {{ pv }} 2>/dev/null
     {{ getopts(pvdata, True) }}
 
   {%- endfor %}

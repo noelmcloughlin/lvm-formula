@@ -11,10 +11,10 @@ lvm_vg_create_{{ vg }}:
     - name: {{ vg }}
     - devices: {{ vgdata['devices'] }}
     - unless:
-      - vgdisplay {{ vg }}
+      - vgdisplay {{ vg }} 2>/dev/null
       {%- for dev in vgdata['devices'] %}
         {# salt ignores True from multiple unless conditions? bug. #}
-      - pvdisplay {{ dev }} | grep -i 'vg name.*[a-zA-Z1-9].*' 2>/dev/null
+      - pvdisplay {{ dev }} 2>/dev/null | grep -i 'vg name.*[a-zA-Z1-9].*' 2>/dev/null
       {%- endfor %}
     {{ getopts(vgdata, True) }}
 

@@ -9,7 +9,7 @@
 lvm_vg_export_{{ vg }}:
   cmd.run:
     - name: vgexport {{ getopts(vgdata) }} {{ vg }}
-    - onlyif: vgdisplay {{ vg }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

@@ -10,8 +10,8 @@
 lvm_vg_split_{{ vg }}:
   cmd.run:
     - name: vgsplit {{ getopts(vgdata) }} {{ vg }} {{ vgdata['newvg'] }} {{ getlist(vgdata['devices']) }}
-    - onlyif: vgdisplay {{ vg }}
-    - unless: vgdisplay {{ vgdata['newvg'] }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null
+    - unless: vgdisplay {{ vgdata['newvg'] }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

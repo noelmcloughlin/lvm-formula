@@ -5,7 +5,6 @@
 
 include:
     - lvm.install
-    - lvm.config
     - lvm.profiles
     - lvm.files
     - lvm.pv

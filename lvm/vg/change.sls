@@ -9,7 +9,7 @@
 lvm_vg_change_{{ vg }}:
   cmd.run:
     - name: vgchange {{ getopts(vgdata) }} {{ vg }}
-    - onlyif: vgdisplay {{ vg }}
+    - onlyif: vgdisplay {{ vg }} 2>/dev/null
 
   {%- endfor %}
 {%- else %}

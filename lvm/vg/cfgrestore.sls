@@ -19,7 +19,7 @@ lvm_vg_cfgrestore_{{ vg }}:
   cmd.run:
     - name: vgcfgrestore -f {{ lvm.config.dir.restores }}/{{ vgdata['file'] }} {{ getopts(vgdata) }} {{ vg }}
     - onlyif:
-      - vgdisplay {{ vg }}
+      - vgdisplay {{ vg }} 2>/dev/null
       - test -f {{ lvm.config.dir.restores }}/{{ vgdata['file'] }}
     - require:
       - file: lvm_vg_cfgrestore_dir
