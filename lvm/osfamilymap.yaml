@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 # vim: ft=jinja
 
+Default:
+  pkgs:
+    - thin-provisioning-tools
+
 RedHat:
+  pkgs:
+    - device-mapper-persistent-data
   profiles:
     default:
       thin-generic: {}
@@ -9,4 +15,3 @@ RedHat:
       command_profile_templater: {}
       cache-smq: {}
       lvmdbusd: {}
-
