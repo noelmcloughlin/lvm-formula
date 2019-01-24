@@ -5,6 +5,10 @@ Default:
   pkgs:
     - thin-provisioning-tools
 
+Debian:
+  kmodules:
+    - dm_thin_pool
+
 RedHat:
   pkgs:
     - device-mapper-persistent-data

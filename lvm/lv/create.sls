@@ -19,6 +19,15 @@ lvm_lv_create_{{ lv }}:
 
     {%- else %}
 
+       {%- if lvm.kmodules %}
+## load kernel module if needed ##
+lvm_lv_create_{{ lv }}_kernel_modules:
+  kmod.present:
+    - names: {{ lvm.kmodules  }}
+    - onlyif: {{ 'thinvolume' in lvdata or 'thinpool' in lvdata }}
+
+       {%- endif %}
+
 lvm_lv_create_{{ lv }}:
   lvm.lv_present:
     - name: {{ lv }}
@@ -39,6 +48,6 @@ lvm_lv_create_{{ lv }}:
 lvm_lv_create_nothing_to_do:
   test.show_notification:
     - text: |
-        No "lv.create" pillar data supplied - nothing to do!           
+        No "lv.create" pillar data supplied - nothing to do!
 
 {%- endif %}
