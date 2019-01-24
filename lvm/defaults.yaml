@@ -10,6 +10,7 @@ lvm:
   dir_mode: '0755'
   files:
     loopbackdir: /tmp/loopdevs
+  kmodules: []
 
   config:
     dir:
