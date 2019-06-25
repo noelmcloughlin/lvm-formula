@@ -9,7 +9,7 @@
 lvm_vg_create_{{ vg }}:
   lvm.vg_present:
     - name: {{ vg }}
-    - devices: {{ vgdata['devices'] }}
+    - devices: {{ vgdata['devices']|json }}
     - unless:
       - vgdisplay {{ vg }} 2>/dev/null
       {%- for dev in vgdata['devices'] %}

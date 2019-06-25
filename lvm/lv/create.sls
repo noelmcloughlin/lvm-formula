@@ -23,7 +23,7 @@ lvm_lv_create_{{ lv }}:
 ## load kernel module if needed ##
 lvm_lv_create_{{ lv }}_kernel_modules:
   kmod.present:
-    - names: {{ lvm.kmodules  }}
+    - names: {{ lvm.kmodules|json  }}
     - onlyif: {{ 'thinvolume' in lvdata or 'thinpool' in lvdata }}
 
        {%- endif %}
