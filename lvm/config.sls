@@ -30,7 +30,7 @@ lvm.pv.create_{{ pv_options.device|default(pv) }}:
 lvm.vg.create_{{ vg_options.name|default(vg) }}:
     lvm.vg_present:
         - name: {{ vg_options.name|default(vg) }}
-        - devices: {{ vg_options.devices }}
+        - devices: {{ vg_options.devices|json }}
     {% if 'options' in vg_options and vg_options.options %}
     {% for opt,value in vg_options.options.items() %}
         - {{ opt }}: {{ value }} 

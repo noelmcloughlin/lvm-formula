@@ -7,7 +7,7 @@
 lvm packages installed:
   pkg.installed:
       {%- if "pkgs" in lvm %}
-    - names: {{ lvm.pkgs }}
+    - names: {{ lvm.pkgs|json }}
       {%- elif "pkg" in lvm %}
     - name: {{ lvm.pkg }}
       {%- elif "pkg" in lvm_settings %}
