@@ -31,17 +31,14 @@ lvm:
           options:
             size: 100M
       dd:    #copy a file, converting and formatting according to the operands
-        testfile2.img:
+        /tmp/loopdevs/testfile2.img:
           options:
             if: /dev/urandom
             bs: 1024
             count: 204800
       losetup:  #setup loop devices. todo: could be 'list' instead.
-        testfile1.img:
-          options:
-            show: True      #This is default anyway
-            find: True      #This is default anyway
-        testfile2.img:      #So specifying options is unnecessary if you prefer.
+        /tmp/loopdevs/testfile1.img: {}
+        /tmp/loopdevs/testfile2.img: {}
   pv:
     create:
       /dev/loop0:           #hopefully  /tmp/loopdevs/testfile1.img
@@ -49,7 +46,7 @@ lvm:
 
   pv:
     remove:
-      /tmp/loopdevs/loopback1
+      /tmp/loopdevs/loopback1:
         options:
           verbose: True
         loopback:
