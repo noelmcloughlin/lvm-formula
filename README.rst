@@ -40,8 +40,8 @@ Meta-state to run all volume group states in sequence: 'cfgbackup', 'import', 'r
 Meta-state to run all logical volume states in sequence: Order 'remove', 'change', 'reduce', 'extend', 'rename', 'create', 'convert', and 'create' again.
 
 
-Available states
-================
+Available substates
+===================
 
 .. contents::
     :local:
