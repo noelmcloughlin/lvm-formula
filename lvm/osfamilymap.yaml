@@ -11,7 +11,10 @@ Debian:
 
 RedHat:
   pkgs:
+    - lvm2
+    - cryptsetup
     - device-mapper-persistent-data
+    - thin-provisioning-tools
   profiles:
     default:
       thin-generic: {}
