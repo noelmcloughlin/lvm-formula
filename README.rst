@@ -46,11 +46,11 @@ Available substates
 .. contents::
     :local:
 
-``lvm.remove``
+``lvm.clean``
 ------------
 Remove lvm2 software.
 
-``lvm.profiles.remove``
+``lvm.profiles.clean``
 ----------------------
 Remove custom lvm profile(s)::
 
@@ -66,11 +66,11 @@ Install lvm2 package.
 ----------
 Configure PVs, VGs and LVs using legacy pillar data (backwards compatibility only).
 
-``lvm.remove``
+``lvm.clean``
 ------------
 Remove lvm2 software.
 
-``lvm.profiles.remove``
+``lvm.profiles.clean``
 ----------------------
 Remove custom lvm profile(s)::
 
@@ -91,7 +91,7 @@ Create custom lvm profile(s)::
             thin_pool_autoextend_percent: 20
 
 
-``lvm.files.remove``
+``lvm.files.clean``
 ------------------
 Remove LVM backing files from the file system.
 
@@ -125,7 +125,7 @@ LVM Loopback HOW-TO support. Creates backing files (in /tmp by defaults) and loo
         /dev/loop1:               #hopefully /tmp/testfile2.img (run 'sudo losetup -D' first for certainty)
 
 
-``lvm.pv.remove``
+``lvm.pv.clean``
 --------------
 Remove physical volumes (PVs)::
 
@@ -220,7 +220,7 @@ Make volume groups known to the system::
         options:
           verbose: True
 
-``lvm.vg.remove``
+``lvm.vg.clean``
 --------------
 Remove volume group(s)::
 
@@ -348,7 +348,7 @@ Restore the metadata of VG(s) from text backup files produced by ``lvm.vg.cfgbac
 
 
 
-``lvm.lv.remove``
+``lvm.lv.clean``
 ---------------
 Remove LV(s)::
 
