@@ -54,11 +54,3 @@
 {%-   set macos_group = salt['cmd.run']("stat -f '%Sg' /dev/console") %}
 {%-   do lvm.update({'rootgroup': macos_group}) %}
 {%- endif %}
-
-
-## legacy remove in future ##
-{% set os_family_map = salt['grains.filter_by']({
-        'RedHat': { 'pkg': 'lvm2', },
-        'Debian': { 'pkg': 'lvm2', },
-  }, merge=salt['config.get']('lvm:lookup')) %}
-{% set lvm_settings = salt['config.get']( 'lvm', default=os_family_map, merge=True) %}

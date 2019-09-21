@@ -11,9 +11,10 @@
 # osfamilymap: {}
 ---
 Debian:
-  kmodules:
-    - dm_thin_pool
+  #modules:
+    # dm_thin_pool
   pkgs:
+    - lvm2
     - thin-provisioning-tools
 
 RedHat:
