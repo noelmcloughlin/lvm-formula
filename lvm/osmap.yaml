@@ -13,9 +13,11 @@
 # os_family: RedHat
 Fedora:
   pkgs:
-    - device-mapper-persistent-data   #aka thin-provisioning-tools
+    - lvm2
+    - device-mapper-persistent-data   # was thin-provisioning-tools
 
 # os_family: RedHat
 Amazon:
   pkgs:
-    - device-mapper-persistent-data   #aka thin-provisioning-tools
+    - lvm2
+    - device-mapper-persistent-data   # was thin-provisioning-tools

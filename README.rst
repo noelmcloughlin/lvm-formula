@@ -280,7 +280,7 @@ Split volume group(s) into two::
         devices:
           - /dev/sdf
         options:
-          clustered: n
+          shared: n
           maxphysicalvolumes: 0
           maxlogicalvolumes: 0
 
@@ -313,7 +313,7 @@ Create volume group(s)::
           - /dev/sdb
           - /dev/sdc
         options:
-          clustered: n
+          shared: n
           maxlogicalvolumes: 0
           maxphysicalvolumes: 0
           physicalextentsize: 1024

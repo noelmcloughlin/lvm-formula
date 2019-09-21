@@ -11,8 +11,8 @@
 # osfamilymap: {}
 ---
 Debian:
-  #modules:
-    # dm_thin_pool
+  # modules:
+  #   dm_thin_pool
   pkgs:
     - lvm2
     - thin-provisioning-tools
@@ -22,7 +22,6 @@ RedHat:
     - lvm2
     - cryptsetup
     - device-mapper-persistent-data
-    - thin-provisioning-tools
   profiles:
     default:
       thin-generic: {}
@@ -33,6 +32,7 @@ RedHat:
 
 Arch:
   pkgs:
+    - lvm2
     - thin-provisioning-tools
 
 OpenBSD:
@@ -40,6 +40,7 @@ OpenBSD:
 
 Suse:
   pkgs:
+    - lvm2
     - thin-provisioning-tools
 
 Gentoo: {}

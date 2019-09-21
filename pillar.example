@@ -1,5 +1,6 @@
 # vim: sts=2 ts=2 sw= et ai
 #
+---
 lvm:
   config:
     dir:
@@ -16,43 +17,43 @@ lvm:
           thin_pool_autoextend_percent: 20
 
   files:
-    #loopbackdir: /tmp/loopdevs   #Where to create backing files?
+    # loopbackdir: /tmp/loopdevs   # Where to create backing files?
     remove:
       - /tmp/loopdevs/testfile1.img
       - /tmp/loopdevs/testfile2.img
     create:
-      truncate:   #Shrink or extend the size of each FILE to the specified size
+      truncate:   # Shrink or extend the size of each FILE to the specified size
         testfile1.img:
           options:
             size: 100M
-      dd:    #copy a file, converting and formatting according to the operands
+      dd:    # copy a file, converting and formatting according to the operands
         /tmp/loopdevs/testfile2.img:
           options:
             if: /dev/urandom
             bs: 1024
             count: 204800
-      losetup:  #setup loop devices. todo: could be 'list' instead.
+      losetup:  # setup loop devices. todo: could be 'list' instead.
         /tmp/loopdevs/testfile1.img: {}
         /tmp/loopdevs/testfile2.img: {}
   pv:
     remove:
       /tmp/loopdevs/loopback1:
         options:
-          verbose: True
+          verbose: true
         loopback:
           size: 10G
           encryption: none
       /dev/sdb:
         options:
-          verbose: True
+          verbose: true
       /dev/sdc:
         options:
-          debug: True
-      /dev/sdd:
-      /dev/sde:
-      /dev/sdf:
+          debug: true
+      /dev/sdd: {}
+      /dev/sde: {}
+      /dev/sdf: {}
     change:
-      ##Named PV must belong to VG; i.e. PV must be allocatable
+      # Named PV must belong to VG; i.e. PV must be allocatable
       /dev/sdd:
         options:
           addtag: 'goodpvs'
@@ -63,53 +64,53 @@ lvm:
         options:
           setphysicalvolumesize: 1G
     move:
-      ##(Named LV and) old PV must be in same VG; i.e. PVs must be allocatable
+      # (Named LV and) old PV must be in same VG; i.e. PVs must be allocatable
       /dev/sdd:
         dest: /dev/sde
         options:
-          #name: vg00/lv1
-          noudevsync: True
+          # name: vg00/lv1
+          noudevsync: true
     create:
-      /dev/loop0:           #hopefully  /tmp/loopdevs/testfile1.img
-      /dev/loop1:           #hopefully  /tmp/loopdevs/testfile2.img
-      /dev/sdb:
+      /dev/loop0: {}        # hopefully  /tmp/loopdevs/testfile1.img
+      /dev/loop1: {}        # hopefully  /tmp/loopdevs/testfile2.img
+      /dev/sdb: {}
       /dev/sdc:
         options:
-          verbose: True
-      /dev/sdd:
+          verbose: true
+      /dev/sdd: {}
       /dev/sde:
         options:
-          override: True
+          override: true
           dataalignmentoffset: 7s
           metadatacopies: 1
           metadatasize: 40MiB
-      /dev/sdf:
+      /dev/sdf: {}
 
   vg:
     cfgbackup:
       vg00:
         file: vg00_backup_today
         options:
-          quiet: True
+          quiet: true
 
     import:
       i_do_not_exist:
         options:
-          verbose: True
+          verbose: true
 
     remove:
       vg00:
         options:
-          noudevsync: True
+          noudevsync: true
       vg_large:
         options:
-          noudevsync: True
+          noudevsync: true
 
     change:
       vg00:
         options:
-          available: True
-          syncronize: False
+          available: true
+          syncronize: false
           addtag: 'goodvgs'
           deltag: 'badvgs'
 
@@ -118,14 +119,14 @@ lvm:
         devices:
           - /dev/sdb
         options:
-          removemissing: True
+          removemissing: true
 
     extend:
       vg00:
         devices:
           - /dev/sdd
         options:
-          restoremissing: True
+          restoremissing: true
 
     split:
       vg00:
@@ -141,13 +142,13 @@ lvm:
       vg00:
         withvg: vg001
         options:
-          debug: True
+          debug: true
 
     rename:
       vg002:
         newname: vg2
         options:
-          debug: True
+          debug: true
 
     create:
       vg00:
@@ -168,7 +169,7 @@ lvm:
     export:
       vg_tmp:
         options:
-          verbose: True
+          verbose: true
           commandprofile: command_profile_template
 
     cfgrestore:
@@ -198,7 +199,7 @@ lvm:
       my_raid1:
         vgname: vg_large
         options:
-          force: True
+          force: true
 
     change:
       vg00/lv1:
@@ -219,7 +220,7 @@ lvm:
     extend:
       vg00/lv1:
         options:
-          #extents: +100%PVS
+          # extents: +100%PVS
           extents: 2
         devices:
           - /dev/sdf
@@ -243,16 +244,16 @@ lvm:
           extents: 1
           stripes: 2
           stripesize: 4096
-      #following pillars support snapshots: see https://github.com/saltstack/salt/issues/48808
+      # snapshots: see https://github.com/saltstack/salt/issues/48808
       sparse:
         vgname: vg00
-        snapshot: True
+        snapshot: true
         sourcelv: lv1
         options:
           size: 200MiB
       lv2_snap:
         vgname: vg00
-        snapshot: True
+        snapshot: true
         sourcelv: lv2
         options:
           size: '+10%ORIGIN'
@@ -267,13 +268,13 @@ lvm:
           type: raid5
           stripes: 3
           stripesize: 64
-      #lv_raid10_a:
-      #  vgname: vg00
-      #  options:
-      #    type: raid10
-      #    size: 5MiB
-      #    stripes: 2
-      #    mirrors: 1
+      # lv_raid10_a:
+      # vgname: vg00
+      # options:
+      #   type: raid10
+      #   size: 5MiB
+      #   stripes: 2
+      #   mirrors: 1
 
       # data logical volume for thinLV
       lv_pool1:
@@ -290,7 +291,7 @@ lvm:
       # thin LV
       lv_thin1:
         vgname: lv_thinpool1
-        thinvolume: True
+        thinvolume: true
         size: 50M
         options:
           virtualsize: 1G
@@ -301,17 +302,18 @@ lvm:
           stripes: 2
           stripesize: 64
           chunksize: 256
-          thin: True            #thinlogicalvolume
+          thin: true            # thinlogicalvolume
           thinpool: lv_pool1
           virtualsize: 1G
-          background: True
-  
+          background: true
+
     convert:
-      ##thin pool logical volume
+      # thin pool logical volume
       vg_large/lv_thinpool1:
         options:
           type: thin-pool
-          ##data and metadata LVs in a thin pool are best created on separate physical devices
+          # data & metadata LVs in thin pool are best
+          # created on separate physical devices
           poolmetadata:
             - lv_pool1_meta
             - lv_pool1
@@ -330,9 +332,9 @@ lvm:
           splitmirrors: 1
           name: lv_split
           regionsize: 512KB
-          background: False
+          background: false
           interval: 10
-          noudevsync: False
+          noudevsync: false
         devices:
           - /dev/sde
           - /dev/sdf
@@ -343,6 +345,6 @@ lvm:
         options:
           type: gfs
           options: '-plock_nolock -j 1'
-          mount: True
-          onboot: True
-          onboot_opts:
+          mount: true
+          onboot: true
+          onboot_opts: {}
