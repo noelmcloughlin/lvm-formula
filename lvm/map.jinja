@@ -1,16 +1,60 @@
-#Defaults
-{% import_yaml "lvm/defaults.yaml" as defaults %}
-{% import_yaml "lvm/osfamilymap.yaml" as osfamilymap %}
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
 
-# Merge site-specific data
-{% set lvm = salt['grains.filter_by'](
-    defaults,
-    merge=salt['grains.filter_by'](
+{#- Get the `tplroot` from `tpldir` #}
+{%- set tplroot = tpldir.split('/')[0] %}
+{#- Start imports as #}
+{%- import_yaml tplroot ~ "/defaults.yaml" as default_settings %}
+{%- import_yaml tplroot ~ "/osfamilymap.yaml" as osfamilymap %}
+{%- import_yaml tplroot ~ "/osmap.yaml" as osmap %}
+{%- import_yaml tplroot ~ "/oscodename.yaml" as oscodename %}
+{%- import_yaml tplroot ~ "/osfingermap.yaml" as osfingermap %}
+
+
+{#- Retrieve the config dict only once #}
+{%- set _config = salt['config.get'](tplroot, default={}) %}
+
+{%- set defaults = salt['grains.filter_by'](
+      default_settings,
+      default=tplroot,
+      merge=salt['grains.filter_by'](
         osfamilymap,
-        merge=salt['config.get']('lvm', {}),
-    ),
-    base='lvm',
-) %}
+        grain='os_family',
+        merge=salt['grains.filter_by'](
+          osmap,
+          grain='os',
+          merge=salt['grains.filter_by'](
+            oscodename,
+            grain='oscodename',
+            merge=salt['grains.filter_by'](
+              osfingermap,
+              grain='osfinger',
+              merge=salt['grains.filter_by'](
+                _config,
+                default='lookup'
+              )
+            )
+          )
+        )
+      )
+    )
+%}
+
+{%- set config = salt['grains.filter_by'](
+      {'defaults': defaults},
+      default='defaults',
+      merge=_config
+    )
+%}
+
+{%- set lvm = config %}
+
+{#- Post-processing for specific non-YAML customisations #}
+{%- if grains.os == 'MacOS' %}
+{%-   set macos_group = salt['cmd.run']("stat -f '%Sg' /dev/console") %}
+{%-   do lvm.update({'rootgroup': macos_group}) %}
+{%- endif %}
+
 
 ## legacy remove in future ##
 {% set os_family_map = salt['grains.filter_by']({
