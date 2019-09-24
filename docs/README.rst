@@ -86,6 +86,10 @@ Meta-state to run all volume group states in sequence: 'cfgbackup', 'import', 'r
 ^^^^^^^^^^
 Meta-state to run all logical volume states in sequence: Order 'remove', 'change', 'reduce', 'extend', 'rename', 'create', 'convert', and 'create' again.
 
+``lvm.clean``
+^^^^^^^^^^^^^
+Meta-state to run all clean states provided by this formula.
+
 
 Available substates
 -------------------
@@ -93,29 +97,9 @@ Available substates
 .. contents::
     :local:
 
-``lvm.clean``
-^^^^^^^^^^^^^
-Remove lvm2 software.
-
-``lvm.profiles.clean``
-^^^^^^^^^^^^^^^^^^^^^^
-Remove custom lvm profile(s)::
-
-  profiles:
-    remove:
-      - sillyprofile
-
 ``lvm.install``
 ^^^^^^^^^^^^^^^
 Install lvm2 package.
-
-``lvm.config (deprecated)``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Configure PVs, VGs and LVs using legacy pillar data (backwards compatibility only).
-
-``lvm.clean``
-^^^^^^^^^^^^^
-Remove lvm2 software.
 
 ``lvm.profiles.clean``
 ^^^^^^^^^^^^^^^^^^^^^^
