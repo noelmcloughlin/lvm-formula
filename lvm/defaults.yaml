@@ -1,5 +1,6 @@
 # vim: sts=2 ts=2 sw= et ai
 #
+---
 lvm:
   pkgs:
     - lvm2
@@ -26,11 +27,10 @@ lvm:
       vendor: kernel
       format:
         div: "="
-        ucl:  False
-        json: False
+        ucl: false
+        json: false
   vg:
-    enable_export: False
-    enable_cfgrestore: False
+    enable_export: false
+    enable_cfgrestore: false
   pv: {}
   lv: {}
-

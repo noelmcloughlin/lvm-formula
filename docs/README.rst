@@ -1,77 +1,108 @@
-===========
+.. _readme:
+
 lvm-formula
 ===========
+
+|img_travis| |img_sr|
+
+.. |img_travis| image:: https://travis-ci.com/saltstack-formulas/lvm-formula.svg?branch=master
+   :alt: Travis CI Build Status
+   :scale: 100%
+   :target: https://travis-ci.com/saltstack-formulas/lvm-formula
+.. |img_sr| image:: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+   :alt: Semantic Release
+   :scale: 100%
+   :target: https://github.com/semantic-release/semantic-release
 
 Linux logical volume management (LVM2) state API. 
 
 note:: The `lvm.conf(5)` is indirectly managed via LVM profiles.
 
-note:: See the full `Salt Formulas installation and usage instructions
-    <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
+.. contents:: **Table of Contents**
+   :depth: 1
+
+General notes
+-------------
+
+See the full `SaltStack Formulas installation and usage instructions
+<https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
+
+If you are interested in writing or contributing to formulas, please pay attention to the `Writing Formula Section
+<https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#writing-formulas>`_.
+
+If you want to use this formula, please pay attention to the ``FORMULA`` file and/or ``git tag``,
+which contains the currently released version. This formula is versioned according to `Semantic Versioning <http://semver.org/>`_.
+
+See `Formula Versioning Section <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#versioning>`_ for more details.
+
+Todo
+^^^^
+- global filter support is important
+- test some advanced LV/RAID scenarios
+- file systems mngt
+
+Good pillar data
+^^^^^^^^^^^^^^^^
+Bad configuration causes problems. Sanity check pillar data when troubleshooting "``unable to``" state failures.
+
+OS families
+^^^^^^^^^^^
+All Linux distributions supported.
+
+Contributing to this repo
+-------------------------
+
+**Commit message formatting is significant!!**
+
+Please see :ref:`How to contribute <CONTRIBUTING>` for more details.
 
 Available Meta states
-======================
+---------------------
 
 .. contents::
     :local:
 
 ``lvm``
---------
+^^^^^^^
 Meta-state to run all states in sequence: 'install', 'profiles', 'files', 'pv', 'vg', and 'lv'.
 
 ``lvm.profiles``
---------------
+^^^^^^^^^^^^^^^^
 Meta-state to manage lvm profiles in sequence: 'remove', followed by 'create'.
 
 ``lvm.files``
------------
+^^^^^^^^^^^^^
 Meta-state to run loopback file device states in sequence: 'remove', followed by 'create'. Included by `lvm.pv` state.
 
 ``lvm.pv``
------------
+^^^^^^^^^^
 Meta-state to run physical volume (PV) states in sequence: 'remove', 'change', 'resize', 'move', and finally 'create'.
 
 ``lvm.vg``
---------------
+^^^^^^^^^^
 Meta-state to run all volume group states in sequence: 'cfgbackup', 'import', 'remove', 'change' 'reduce', 'extend', 'split', 'merge', 'rename', 'create', 'export' & 'cfgrestore'.
 
 ``lvm.lv``
--------------
+^^^^^^^^^^
 Meta-state to run all logical volume states in sequence: Order 'remove', 'change', 'reduce', 'extend', 'rename', 'create', 'convert', and 'create' again.
+
+``lvm.clean``
+^^^^^^^^^^^^^
+Meta-state to run all clean states provided by this formula.
 
 
 Available substates
-===================
+-------------------
 
 .. contents::
     :local:
 
-``lvm.remove``
-------------
-Remove lvm2 software.
-
-``lvm.profiles.remove``
-----------------------
-Remove custom lvm profile(s)::
-
-  profiles:
-    remove:
-      - sillyprofile
-
 ``lvm.install``
------------
+^^^^^^^^^^^^^^^
 Install lvm2 package.
 
-``lvm.config (depreciated)``
-----------
-Configure PVs, VGs and LVs using legacy pillar data (backwards compatibility only).
-
-``lvm.remove``
-------------
-Remove lvm2 software.
-
-``lvm.profiles.remove``
-----------------------
+``lvm.profiles.clean``
+^^^^^^^^^^^^^^^^^^^^^^
 Remove custom lvm profile(s)::
 
   profiles:
@@ -79,7 +110,7 @@ Remove custom lvm profile(s)::
       - sillyprofile
 
 ``lvm.profiles.create``
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 Create custom lvm profile(s)::
 
   lvm:
@@ -91,12 +122,12 @@ Create custom lvm profile(s)::
             thin_pool_autoextend_percent: 20
 
 
-``lvm.files.remove``
-------------------
+``lvm.files.clean``
+^^^^^^^^^^^^^^^^^^^
 Remove LVM backing files from the file system.
 
 ``lvm.files.create``
-------------------
+^^^^^^^^^^^^^^^^^^^^
 LVM Loopback HOW-TO support. Creates backing files (in /tmp by defaults) and loopback devices per pillars::
 
   lvm: 
@@ -125,8 +156,8 @@ LVM Loopback HOW-TO support. Creates backing files (in /tmp by defaults) and loo
         /dev/loop1:               #hopefully /tmp/testfile2.img (run 'sudo losetup -D' first for certainty)
 
 
-``lvm.pv.remove``
---------------
+``lvm.pv.clean``
+^^^^^^^^^^^^^^^^
 Remove physical volumes (PVs)::
 
     remove:
@@ -141,7 +172,7 @@ Remove physical volumes (PVs)::
       /dev/sdf:
 
 ``lvm.pv.change``
---------------
+^^^^^^^^^^^^^^^^^
 Change attributes of physical volume(s) (PVs)::
 
   pv:
@@ -154,7 +185,7 @@ Change attributes of physical volume(s) (PVs)::
           debug: 1
 
 ``lvm.pv.resize``
---------------
+^^^^^^^^^^^^^^^^^
 Resize disk(s) or partition(s) in use by LVM2::
 
   pv:
@@ -165,7 +196,7 @@ Resize disk(s) or partition(s) in use by LVM2::
 
 
 ``lvm.pv.move``
---------------
+^^^^^^^^^^^^^^^
 Move allocated physical extents (PEs) from Source PV to other PV(s)::
 
   pv:
@@ -177,7 +208,7 @@ Move allocated physical extents (PEs) from Source PV to other PV(s)::
           noudevsync: True
 
 ``lvm.pv.create``
---------------
+^^^^^^^^^^^^^^^^^
 Initialize disk(s) or partition(s) for use by LVM::
 
   pv:
@@ -199,7 +230,7 @@ Initialize disk(s) or partition(s) for use by LVM::
 
 
 ``lvm.vg.cfgbackup``
--------------------
+^^^^^^^^^^^^^^^^^^^^
 Backup the metadata of your volume groups::
 
   vg:
@@ -211,7 +242,7 @@ Backup the metadata of your volume groups::
           readonly: True
 
 ``lvm.vg.import``
---------------
+^^^^^^^^^^^^^^^^^
 Make volume groups known to the system::
 
   vg:
@@ -220,8 +251,8 @@ Make volume groups known to the system::
         options:
           verbose: True
 
-``lvm.vg.remove``
---------------
+``lvm.vg.clean``
+^^^^^^^^^^^^^^^^
 Remove volume group(s)::
 
   vg:
@@ -231,7 +262,7 @@ Remove volume group(s)::
           noudevsync: True
 
 ``lvm.vg.change``
---------------
+^^^^^^^^^^^^^^^^^
 Change attributes of volume group(s)::
 
   vg:
@@ -245,7 +276,7 @@ Change attributes of volume group(s)::
 
 
 ``lvm.vg.reduce``
---------------
+^^^^^^^^^^^^^^^^^
 Remove one or more unused physical volumes from a volume group::
 
   vg:
@@ -257,7 +288,7 @@ Remove one or more unused physical volumes from a volume group::
           removemissing: True
 
 ``lvm.vg.extend``
---------------
+^^^^^^^^^^^^^^^^^
 Add physical volumes to a volume group(s)::
 
   vg:
@@ -270,7 +301,7 @@ Add physical volumes to a volume group(s)::
 
 
 ``lvm.vg.split``
---------------
+^^^^^^^^^^^^^^^^
 Split volume group(s) into two::
 
   vg:
@@ -280,12 +311,12 @@ Split volume group(s) into two::
         devices:
           - /dev/sdf
         options:
-          clustered: n
+          shared: n
           maxphysicalvolumes: 0
           maxlogicalvolumes: 0
 
 ``lvm.vg.merge``
---------------
+^^^^^^^^^^^^^^^^
 Merge two volume groups::
 
   vg:
@@ -294,7 +325,7 @@ Merge two volume groups::
         withvg: vg001
 
 ``lvm.vg.rename``
---------------
+^^^^^^^^^^^^^^^^^
 Rename volume group(s)::
 
   vg:
@@ -303,7 +334,7 @@ Rename volume group(s)::
         newname: vg002old
 
 ``lvm.vg.create``
---------------
+^^^^^^^^^^^^^^^^^
 Create volume group(s)::
 
   vg:
@@ -313,7 +344,7 @@ Create volume group(s)::
           - /dev/sdb
           - /dev/sdc
         options:
-          clustered: n
+          shared: n
           maxlogicalvolumes: 0
           maxphysicalvolumes: 0
           physicalextentsize: 1024
@@ -324,7 +355,7 @@ Create volume group(s)::
           - /dev/sdf
 
 ``lvm.vg.export``
---------------
+^^^^^^^^^^^^^^^^^
 Make volume groups unknown to the system::
 
   vg:
@@ -335,7 +366,7 @@ Make volume groups unknown to the system::
           commandprofile: command_profile_template
 
 ``lvm.vg.cfgrestore``
--------------------
+^^^^^^^^^^^^^^^^^^^^^
 Restore the metadata of VG(s) from text backup files produced by ``lvm.vg.cfgbackup`` state::
 
   vg:
@@ -348,8 +379,8 @@ Restore the metadata of VG(s) from text backup files produced by ``lvm.vg.cfgbac
 
 
 
-``lvm.lv.remove``
----------------
+``lvm.lv.clean``
+^^^^^^^^^^^^^^^^
 Remove LV(s)::
 
   lv:
@@ -378,7 +409,7 @@ Remove LV(s)::
           force: True
 
 ``lvm.lv.change``
-----------------
+^^^^^^^^^^^^^^^^^
 Change attributes of logical volume(s)::
 
   lv:
@@ -391,7 +422,7 @@ Change attributes of logical volume(s)::
           deltag: 'badlvs'
 
 ``lvm.lv.reduce``
----------------
+^^^^^^^^^^^^^^^^^
 Reduce size of logical volume(s)::
 
   lv:
@@ -404,7 +435,7 @@ Reduce size of logical volume(s)::
           size: -20MiB
 
 ``lvm.lv.extend``
-----------------
+^^^^^^^^^^^^^^^^^
 Extend size of logical volume(s)::
 
   lv:
@@ -417,7 +448,7 @@ Extend size of logical volume(s)::
           - /dev/sdf
 
 ``lvm.lv.rename``
--------------
+^^^^^^^^^^^^^^^^^
 Rename LV(s)::
 
   lv:
@@ -427,7 +458,7 @@ Rename LV(s)::
         newname: lvolvo
 
 ``lvm.lv.create``
-----------------
+^^^^^^^^^^^^^^^^^
 Create logical volume(s) in existing volume group(s)::
 
   lv:
@@ -463,7 +494,7 @@ Note:: Thin provisioning needs two `create` states to run (`create`, `convert`, 
 
 
 ``lvm.lv.convert``
-----------------
+^^^^^^^^^^^^^^^^^^
 Change LV type and other utilities::
 
   lv:
@@ -494,17 +525,50 @@ Change LV type and other utilities::
 Note:: Thin provisioning needs two `create` states to run (`create`, `convert`, and `create`).
 
 
-Todo
-=======
-- global filter support is important
-- test some advanced LV/RAID scenarios
-- file systems mngt
+Testing
+-------
 
-Good Pillar data
-=================
-Bad conf(5)iguration causes problems. Sanity check pillar data when troubleshooting "``unable to``" state failures.
+.. contents::
+    :local:
 
-OS families
-=================
-All Linux distributions supported.
+Linux testing is done with ``kitchen-salt``.
 
+Requirements
+^^^^^^^^^^^^
+
+* Ruby
+* Docker
+
+.. code-block:: bash
+
+   $ gem install bundler
+   $ bundle install
+   $ bin/kitchen test [platform]
+
+Where ``[platform]`` is the platform name defined in ``kitchen.yml``,
+e.g. ``debian-9-2019-2-py3``.
+
+``bin/kitchen converge``
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Creates the docker instance and runs the ``lvm`` main state, ready for testing.
+
+``bin/kitchen verify``
+^^^^^^^^^^^^^^^^^^^^^^
+
+Runs the ``inspec`` tests on the actual instance.
+
+``bin/kitchen destroy``
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Removes the docker instance.
+
+``bin/kitchen test``
+^^^^^^^^^^^^^^^^^^^^
+
+Runs all of the stages above in one go: i.e. ``destroy`` + ``converge`` + ``verify`` + ``destroy``.
+
+``bin/kitchen login``
+^^^^^^^^^^^^^^^^^^^^^
+
+Gives you SSH access to the instance for manual testing.
