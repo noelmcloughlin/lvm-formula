@@ -17,6 +17,6 @@ lvm_vg_merge_{{ vg }}:
 lvm_vg_merge_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.merge" pillar data supplied - nothing to do!           
+        No "vg.merge" pillar data supplied - nothing to do!
 
 {%- endif %}

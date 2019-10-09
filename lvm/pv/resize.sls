@@ -17,6 +17,6 @@ lvm_pv_resize_{{ pv }}:
 lvm_pv_resize_nothing_to_do:
   test.show_notification:
     - text: |
-        No "pv.resize" pillar data supplied - nothing to do!          
+        No "pv.resize" pillar data supplied - nothing to do!
 
 {%- endif %}

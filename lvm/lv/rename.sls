@@ -18,6 +18,6 @@ lvm_lv_rename_{{ lv }}:
 lvm_lv_rename_nothing_to_do:
   test.show_notification:
     - text: |
-        No "lv.rename" pillar data supplied - nothing to do!           
+        No "lv.rename" pillar data supplied - nothing to do!
 
 {%- endif %}

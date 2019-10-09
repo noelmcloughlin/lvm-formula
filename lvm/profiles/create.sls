@@ -35,6 +35,6 @@ lvm_profiles_create_{{ profile }}:
 lvm_profiles_create_nothing_to_do:
   test.show_notification:
     - text: |
-        No "profiles.create" pillar data supplied - nothing to do!          
+        No "profiles.create" pillar data supplied - nothing to do!
 
 {%- endif %}

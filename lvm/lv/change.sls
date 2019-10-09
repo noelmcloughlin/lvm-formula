@@ -17,6 +17,6 @@ lvm_lv_change_{{ lv }}:
 lvm_lv_change_nothing_to_do:
   test.show_notification:
     - text: |
-        No "lv.change" pillar data supplied - nothing to do!           
+        No "lv.change" pillar data supplied - nothing to do!
 
 {%- endif %}

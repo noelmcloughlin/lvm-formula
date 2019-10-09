@@ -24,6 +24,6 @@ lvm_vg_create_{{ vg }}:
 lvm_vg_create_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.create" pillar data supplied - nothing to do!           
+        No "vg.create" pillar data supplied - nothing to do!
 
 {%- endif %}

@@ -30,6 +30,6 @@ lvm_vg_cfgrestore_{{ vg }}:
 lvm_vg_cfgrestore_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.cfgrestore" pillar data supplied (or 'enable_cfgrestore` is False) - nothing to do! 
+        No "vg.cfgrestore" pillar data supplied (or 'enable_cfgrestore` is False) - nothing to do!
 
 {%- endif %}

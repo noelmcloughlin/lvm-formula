@@ -17,6 +17,6 @@ lvm_vg_change_{{ vg }}:
 lvm_vg_change_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.change" pillar data supplied - nothing to do!           
+        No "vg.change" pillar data supplied - nothing to do!
 
 {%- endif %}

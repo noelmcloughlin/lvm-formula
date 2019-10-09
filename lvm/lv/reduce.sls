@@ -17,6 +17,6 @@ lvm_lv_reduce_{{ lv }}:
 lvm_lv_reduce_nothing_to_do:
   test.show_notification:
     - text: |
-        No "lv.reduce" pillar data supplied - nothing to do!           
+        No "lv.reduce" pillar data supplied - nothing to do!
 
 {%- endif %}

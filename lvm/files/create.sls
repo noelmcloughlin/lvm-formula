@@ -48,7 +48,7 @@ lvm file dd {{ file }}:
 lvm file losetup {{ file }} as loopback device:
   cmd.run:
     - cwd: {{ lvm.files.loopbackdir or '/tmp/loopdevs' }}
-    - name: losetup {{ getopts(filedata) or '--show --find' }}{{' '}}{{ file }}
+    - name: losetup {{ getopts(filedata) or '--show --find' }}{{ ' ' }}{{ file }}
     - onlyif: test -f {{ file }}
     - require:
       - file: lvm ensure loop device dir exists
