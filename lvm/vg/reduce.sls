@@ -18,6 +18,6 @@ lvm_vg_reduce_{{ vg }}:
 lvm_vg_reduce_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.reduce" pillar data supplied - nothing to do!           
+        No "vg.reduce" pillar data supplied - nothing to do!
 
 {%- endif %}

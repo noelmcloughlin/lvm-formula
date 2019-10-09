@@ -18,6 +18,6 @@ lvm_lv_extend_{{ lv }}:
 lvm_lv_extend_nothing_to_do:
   test.show_notification:
     - text: |
-        No "lv.extend" pillar data supplied - nothing to do!           
+        No "lv.extend" pillar data supplied - nothing to do!
 
 {%- endif %}

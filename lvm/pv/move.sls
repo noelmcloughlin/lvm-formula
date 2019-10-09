@@ -20,6 +20,6 @@ lvm_pv_move_{{ pv }}:
 lvm_pv_move_nothing_to_do:
   test.show_notification:
     - text: |
-        No "pv.move" pillar data supplied - nothing to do!          
+        No "pv.move" pillar data supplied - nothing to do!
 
 {%- endif %}

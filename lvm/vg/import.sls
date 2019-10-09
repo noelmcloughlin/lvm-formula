@@ -17,6 +17,6 @@ lvm_vg_import_{{ vg }}:
 lvm_vg_import_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.import" pillar data supplied - nothing to do!           
+        No "vg.import" pillar data supplied - nothing to do!
 
 {%- endif %}

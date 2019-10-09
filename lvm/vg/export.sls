@@ -17,6 +17,6 @@ lvm_vg_export_{{ vg }}:
 lvm_vg_export_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.export" pillar data supplied (or 'enable_export` is False) - nothing to do!           
+        No "vg.export" pillar data supplied (or 'enable_export` is False) - nothing to do!
 
 {%- endif %}
