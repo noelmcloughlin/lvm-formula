@@ -18,6 +18,6 @@ lvm_pv_create_{{ pv }}:
 lvm_pv_create_nothing_to_do:
   test.show_notification:
     - text: |
-        No "pv.create" pillar data supplied - nothing to do!          
+        No "pv.create" pillar data supplied - nothing to do!
 
 {%- endif %}

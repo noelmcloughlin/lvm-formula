@@ -18,6 +18,6 @@ lvm_lv_convert_{{ lv }}:
 lvm_lv_convert_nothing_to_do:
   test.show_notification:
     - text: |
-        No "lv.convert" pillar data supplied - nothing to do!           
+        No "lv.convert" pillar data supplied - nothing to do!
 
 {%- endif %}

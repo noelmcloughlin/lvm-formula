@@ -12,7 +12,10 @@
 
 lvm_lv_create_{{ lv }}:
   cmd.run:
-    - name: lvcreate --yes {{- getopts(lvdata) }} --name {{ lvdata['vgname'] }}/{{ lv }} --snapshot {{ lvdata['sourcelv'] }} {{- getlist(lvdata['devices']) if 'devices' in lvdata else '' }}
+    - name: |
+        lvcreate --yes {{- getopts(lvdata) }} \
+                 --name {{ lvdata['vgname'] }}/{{ lv }} \
+                 --snapshot {{ lvdata['sourcelv'] }} {{- getlist(lvdata['devices']) if 'devices' in lvdata else '' }}
     - unless: lvdisplay {{ lvdata['vgname'] }}/{{ lv }} 2>/dev/null
     - onlyif: lvdisplay {{ lvdata['vgname'] }}/{{ lvdata['sourcelv'] }} 2>/dev/null
     #force??

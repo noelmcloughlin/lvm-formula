@@ -17,6 +17,6 @@ lvm_vg_clean_{{ vg }}:
 lvm_vg_clean_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.remove" pillar data supplied - nothing to do!           
+        No "vg.remove" pillar data supplied - nothing to do!
 
 {%- endif %}

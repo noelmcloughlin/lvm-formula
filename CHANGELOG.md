@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.1](https://github.com/saltstack-formulas/lvm-formula/compare/v0.3.0...v0.3.1) (2019-10-10)
+
+
+### Bug Fixes
+
+* **create.sls:** fix `salt-lint` errors ([](https://github.com/saltstack-formulas/lvm-formula/commit/2ef61f3))
+* **create.sls:** fix `salt-lint` errors ([](https://github.com/saltstack-formulas/lvm-formula/commit/ab327b6))
+* **trailing whitespace:** fix `salt-lint` errors ([](https://github.com/saltstack-formulas/lvm-formula/commit/0ff8bc9))
+
+
+### Continuous Integration
+
+* **kitchen:** install required packages to bootstrapped `opensuse` [skip ci] ([](https://github.com/saltstack-formulas/lvm-formula/commit/44810fd))
+* **kitchen:** use bootstrapped `opensuse` images until `2019.2.2` [skip ci] ([](https://github.com/saltstack-formulas/lvm-formula/commit/c31b572))
+* merge travis matrix, add `salt-lint` & `rubocop` to `lint` job ([](https://github.com/saltstack-formulas/lvm-formula/commit/b8b3b6b))
+
 # [0.3.0](https://github.com/saltstack-formulas/lvm-formula/compare/v0.2.4...v0.3.0) (2019-09-25)
 
 

@@ -19,6 +19,6 @@ lvm_vg_split_{{ vg }}:
 lvm_vg_split_nothing_to_do:
   test.show_notification:
     - text: |
-        No "vg.split" pillar data supplied - nothing to do!           
+        No "vg.split" pillar data supplied - nothing to do!
 
 {%- endif %}
