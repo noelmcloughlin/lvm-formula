@@ -2,6 +2,22 @@
 Changelog
 =========
 
+`0.3.2 <https://github.com/saltstack-formulas/lvm-formula/compare/v0.3.1...v0.3.2>`_ (2019-10-12)
+-----------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **rubocop:** add fixes using ``rubocop --safe-auto-correct`` (\ ` <https://github.com/saltstack-formulas/lvm-formula/commit/ce2077b>`_\ )
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* merge travis matrix, add ``salt-lint`` & ``rubocop`` to ``lint`` job (\ ` <https://github.com/saltstack-formulas/lvm-formula/commit/914d3d6>`_\ )
+* **travis:** merge ``rubocop`` linter into main ``lint`` job (\ ` <https://github.com/saltstack-formulas/lvm-formula/commit/10242fd>`_\ )
+
 `0.3.1 <https://github.com/saltstack-formulas/lvm-formula/compare/v0.3.0...v0.3.1>`_ (2019-10-10)
 -----------------------------------------------------------------------------------------------------
 
