@@ -1,0 +1,97 @@
+# vim: sts=2 ts=2 sw= et ai
+#
+---
+lvm:
+  config:
+    dir:
+      profiles: /etc/lvm/profile
+      backups: /etc/lvm/backup
+
+  profiles:
+    remove:
+      - sillyprofile
+    create:
+      thin-generic-autoextend:
+        activation:
+          thin_pool_autoextend_threshold: 70
+          thin_pool_autoextend_percent: 20
+
+  files:
+    # loopbackdir: /tmp/loopdevs   # for backing files
+    remove:
+      - /tmp/loopdevs/testfile1.img
+      - /tmp/loopdevs/testfile2.img
+    create:
+      truncate:   # Shrink or extend the size of each FILE to the specified size
+        testfile1.img:
+          options:
+            size: 100M
+      dd:    # copy a file, converting and formatting according to the operands
+        /tmp/loopdevs/testfile2.img:
+          options:
+            if: /dev/urandom
+            bs: 1024
+            count: 204800
+      losetup:  # setup loop devices. todo: could be 'list' instead.
+        /tmp/loopdevs/testfile1.img: {}
+        /tmp/loopdevs/testfile2.img: {}
+  pv:
+    remove:
+      /dev/loop5:
+        options:
+          verbose: true
+      /dev/loop6: {}
+
+    change:
+      # Named PV must belong to VG; i.e. PV must be allocatable
+      /dev/loop5:
+        options:
+          addtag: 'goodpvs'
+          deltag: 'badpvs'
+          debug: 1
+
+    create:
+      /dev/loop5: {}   # hopefully  /tmp/loopdevs/testfile1.img
+      /dev/loop6:      # hopefully  /tmp/loopdevs/testfile2.img
+        options:
+          verbose: true
+
+  vg:
+    cfgbackup:
+      vg00:
+        file: vg00_backup_today
+        options:
+          quiet: true
+    create:
+      vg00:
+        devices:
+          - /dev/loop5
+          - /dev/loop6
+        options:
+          shared: n
+          maxlogicalvolumes: 0
+          maxphysicalvolumes: 0
+          # physicalextentsize: 1024
+
+    cfgrestore:
+      vg00:
+        file: vg00_backup_today
+
+  lv:
+    create:
+      lv1:
+        vgname: vg00
+        size: 150MiB
+        options:
+          zero: n
+          addtag: 'Coolvolume'
+
+  filesystems:
+    create:
+      /dev/vg00/lv1:
+        options:
+          type: xfs
+          options: '-plock_nolock -j 1'
+          mount: true
+          onboot: true
+          onboot_opts: {}
